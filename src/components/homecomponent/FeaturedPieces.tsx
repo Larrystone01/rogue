@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 export default async function FeaturedPieces() {
   const products = await fetchProducts({ limit: 5 });
+  console.log("Component rendered");
   return (
     <section className="md:my-16 my-8">
       <div className="container mx-auto px-6">
