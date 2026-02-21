@@ -19,8 +19,12 @@ export async function fetchProducts({
   limit?: number;
 }): Promise<Product[]> {
   try {
-    const res = await fetch("https://fakestoreapi.com/products");
+    const res = await fetch("https://fakestoreapi.com/products", {
+      cache: "no-store",
+    });
     if (!res.ok) throw new Error("Failed to fetch products");
+    console.log(res.status);
+    console.log(res.ok);
     const data = await res.json();
     return limit ? data.slice(1, limit) : data;
   } catch (error) {
