@@ -15,19 +15,10 @@ type Product = {
 export default async function FeaturedPieces() {
   // const products = await fetchProducts({ limit: 5 });
   const baseUrl = process.env.NEXT_PUBLIC_URL;
-  let products: Product[] = [];
+  const res = await fetch(`${baseUrl}/api/products`);
+  if (!res.ok) throw new Error("Failed to fetch products");
+  const products: Product[] = await res.json();
 
-  try {
-    const res = await fetch(`${baseUrl}/api/products`, {
-      cache: "no-store",
-    });
-    const data = await res.json();
-
-    if (Array.isArray(data)) products = data;
-    else console.error("API returned non-array:", data);
-  } catch (err) {
-    console.error("Failed to fetch products:", err);
-  }
   console.log(products.length);
   return (
     <section className="md:my-16 my-8">
