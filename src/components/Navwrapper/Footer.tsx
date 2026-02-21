@@ -22,7 +22,7 @@ export default function Footer() {
                 return (
                   <li key={link.id}>
                     <Link
-                      href={link.href}
+                      href={"/"}
                       className="text-[rgba(255,255,255,0.8)] text-[0.78rem] hover:text-white capitalize transition-colors duration-300"
                     >
                       {link.title}
@@ -41,7 +41,7 @@ export default function Footer() {
                 return (
                   <li key={link.id}>
                     <Link
-                      href={link.href}
+                      href={"/"}
                       className="text-[rgba(255,255,255,0.8)] text-[0.78rem] mb-3.5 hover:text-white capitalize transition-colors duration-300"
                     >
                       {link.title}
@@ -60,7 +60,7 @@ export default function Footer() {
                 return (
                   <li key={link.id}>
                     <Link
-                      href={link.href}
+                      href={"/"}
                       className="text-[rgba(255,255,255,0.8)] text-[0.78rem] hover:text-white capitalize transition-colors duration-300 mb-3.5"
                     >
                       {link.title}
