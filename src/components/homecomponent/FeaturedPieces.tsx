@@ -1,26 +1,52 @@
+"use client";
+import { useState, useEffect } from "react";
 import { fetchProducts } from "@/lib/fetch";
-export const dynamic = "force-dynamic";
+import type { Product } from "@/lib/fetch";
 import Image from "next/image";
 import Link from "next/link";
 
-type Rating = { rate: number; count: number };
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: Rating;
-};
-export default async function FeaturedPieces() {
+export default function FeaturedPieces() {
   // const products = await fetchProducts({ limit: 5 });
-  const baseUrl = process.env.NEXT_PUBLIC_URL;
-  const res = await fetch(`${baseUrl}/api/products`);
-  if (!res.ok) throw new Error("Failed to fetch products");
-  const products: Product[] = await res.json();
+  // const baseUrl = process.env.NEXT_PUBLIC_URL;
+  // const res = await fetch(`${baseUrl}/api/products`);
+  // if (!res.ok) throw new Error("Failed to fetch products");
+  // const products: Product[] = await res.json();
 
-  // console.log(products.length);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const data = await fetchProducts({ limit: 5 });
+        setProducts(data);
+      } catch (err) {
+        setError("Failed to fetch products");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadProducts();
+  }, []);
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
+  if (loading) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500">Loading products...</p>
+      </div>
+    );
+  }
+
   return (
     <section className="md:my-16 my-8">
       <div className="container mx-auto px-6">
@@ -33,7 +59,7 @@ export default async function FeaturedPieces() {
           </button>
         </div>
         <div className="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.slice(1, 5).map((product: any) => {
+          {products.map((product: any) => {
             return (
               <Link
                 href={""}
