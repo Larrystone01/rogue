@@ -20,7 +20,7 @@ export async function fetchProducts({
 }): Promise<Product[]> {
   try {
     const res = await fetch("https://fakestoreapi.com/products", {
-      cache: "no-store",
+      next: { revalidate: 30 },
     });
     if (!res.ok) throw new Error("Failed to fetch products");
     console.log(res.status);

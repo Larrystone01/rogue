@@ -33,7 +33,7 @@ export default async function FeaturedPieces() {
           </button>
         </div>
         <div className="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.slice(1, 5).map((product: any) => {
+          {products.map((product: any) => {
             return (
               <Link
                 href={""}
