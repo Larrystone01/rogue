@@ -2,22 +2,22 @@ import { fetchProducts } from "@/lib/fetch";
 import Image from "next/image";
 import Link from "next/link";
 
-// type Rating = { rate: number; count: number };
-// type Product = {
-//   id: number;
-//   title: string;
-//   price: number;
-//   description: string;
-//   category: string;
-//   image: string;
-//   rating: Rating;
-// };
+type Rating = { rate: number; count: number };
+type Product = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating: Rating;
+};
 export default async function FeaturedPieces() {
-  const products = await fetchProducts({ limit: 5 });
-  // const baseUrl = process.env.NEXT_PUBLIC_URL;
-  // const res = await fetch(`${baseUrl}/api/products`);
-  // if (!res.ok) throw new Error("Failed to fetch products");
-  // const products: Product[] = await res.json();
+  // const products = await fetchProducts({ limit: 5 });
+  const baseUrl = process.env.NEXT_PUBLIC_URL;
+  const res = await fetch(`${baseUrl}/api/products`);
+  if (!res.ok) throw new Error("Failed to fetch products");
+  const products: Product[] = await res.json();
 
   // console.log(products.length);
   return (
@@ -32,7 +32,7 @@ export default async function FeaturedPieces() {
           </button>
         </div>
         <div className="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product: any) => {
+          {products.slice(1, 5).map((product: any) => {
             return (
               <Link
                 href={""}
