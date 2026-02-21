@@ -1,25 +1,25 @@
-export const dynamic = "force-dynamic";
+import { fetchProducts } from "@/lib/fetch";
 import Image from "next/image";
 import Link from "next/link";
 
-type Rating = { rate: number; count: number };
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: Rating;
-};
+// type Rating = { rate: number; count: number };
+// type Product = {
+//   id: number;
+//   title: string;
+//   price: number;
+//   description: string;
+//   category: string;
+//   image: string;
+//   rating: Rating;
+// };
 export default async function FeaturedPieces() {
-  // const products = await fetchProducts({ limit: 5 });
-  const baseUrl = process.env.NEXT_PUBLIC_URL;
-  const res = await fetch(`${baseUrl}/api/products`);
-  if (!res.ok) throw new Error("Failed to fetch products");
-  const products: Product[] = await res.json();
+  const products = await fetchProducts({ limit: 5 });
+  // const baseUrl = process.env.NEXT_PUBLIC_URL;
+  // const res = await fetch(`${baseUrl}/api/products`);
+  // if (!res.ok) throw new Error("Failed to fetch products");
+  // const products: Product[] = await res.json();
 
-  console.log(products.length);
+  // console.log(products.length);
   return (
     <section className="md:my-16 my-8">
       <div className="container mx-auto px-6">
