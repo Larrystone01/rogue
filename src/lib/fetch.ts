@@ -1,4 +1,4 @@
-type Product = {
+export type Product = {
   id: number;
   title: string;
   price: number;
@@ -19,9 +19,7 @@ export async function fetchProducts({
   limit?: number;
 }): Promise<Product[]> {
   try {
-    const res = await fetch("https://fakestoreapi.com/products", {
-      cache: "no-store",
-    });
+    const res = await fetch("https://fakestoreapi.com/products");
     if (!res.ok) throw new Error("Failed to fetch products");
     console.log(res.status);
     console.log(res.ok);
@@ -32,3 +30,33 @@ export async function fetchProducts({
     return [];
   }
 }
+
+// export async function fetchProducts({ limit }: { limit?: number }) {
+//   try {
+//     const res = await fetch("https://fakestoreapi.com/products", {
+//       next: { revalidate: 60 },
+//       headers: {
+//         Accept: "application/json",
+//       },
+//     });
+
+//     if (!res.ok) {
+//       console.error("Status:", res.status);
+//       return [];
+//     }
+
+//     const text = await res.text();
+
+//     if (!text) {
+//       console.error("Empty response body");
+//       return [];
+//     }
+
+//     const data = JSON.parse(text);
+
+//     return limit ? data.slice(1, limit) : data;
+//   } catch (err) {
+//     console.error("FETCH FAILED:", err);
+//     return [];
+//   }
+// }
