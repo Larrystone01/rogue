@@ -18,7 +18,7 @@ export default function Navbar() {
             </Link>
           </div>
           <div
-            className={`nav-links-functionality absolute border-b md:border-b-0 border-b-[#888] md:static w-full top-full left-0 px-6 flex flex-col md:flex-row flex-2 justify-between -z-50 transition-all ease-in-out duration-300 md:opacity-100 md:translate-y-0 bg-white md:bg-inherit ${isOpen ? "translate-y-3.5 opacity-100" : "opacity-0 -translate-y-full"}`}
+            className={`nav-links-functionality absolute border-b md:border-b-0 border-b-[#888] md:static w-full top-full left-0 px-6 flex flex-col md:flex-row flex-2 justify-between -z-50 transition-all ease-in-out duration-300 md:opacity-100 md:translate-y-0 bg-white md:bg-inherit ${isOpen ? "translate-y-0 opacity-100" : "opacity-0 -translate-y-full"}`}
           >
             <div className="nav-links flex flex-col md:flex-row gap-4 md:gap-10 md:w-1/2 md:justify-center md:items-center">
               <Link
