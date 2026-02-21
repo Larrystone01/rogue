@@ -18,7 +18,7 @@ export default async function FeaturedPieces() {
   let products: Product[] = [];
 
   try {
-    const res = await fetch(`${baseUrl}/api/products?limit=5`, {
+    const res = await fetch(`${baseUrl}/api/products`, {
       cache: "no-store",
     });
     const data = await res.json();
