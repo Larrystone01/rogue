@@ -6,7 +6,7 @@ export default function Hero() {
     <section className="hero-section">
       <div className="container mx-auto px-6">
         <div className="hero-container flex flex-col md:flex-row justify-between">
-          <div className="hero-content flex flex-col gap-6 justify-center">
+          <div className="hero-content flex flex-col gap-6 justify-center h-screen">
             <p className="uppercase tracking-[3px] text-gray-500 text-[0.75rem]">
               Spring / Summer 2026
             </p>
