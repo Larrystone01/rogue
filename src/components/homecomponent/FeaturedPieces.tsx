@@ -2,8 +2,10 @@ import { fetchProducts } from "@/lib/fetch";
 import Image from "next/image";
 import Link from "next/link";
 export default async function FeaturedPieces() {
-  const products = await fetchProducts({ limit: 5 });
-  console.log("Component rendered");
+  // const products = await fetchProducts({ limit: 5 });
+  const baseUrl = process.env.NEXT_PUBLIC_URL;
+  const res = await fetch(`${baseUrl}/api/products?limit=5`);
+  const products = await res.json();
   return (
     <section className="md:my-16 my-8">
       <div className="container mx-auto px-6">
@@ -16,7 +18,7 @@ export default async function FeaturedPieces() {
           </button>
         </div>
         <div className="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product) => {
+          {products.slice(1, 5).map((product: any) => {
             return (
               <Link
                 href={""}
