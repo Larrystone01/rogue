@@ -4,6 +4,7 @@ import { fetchProducts } from "@/lib/fetch";
 import type { Product } from "@/lib/fetch";
 import Image from "next/image";
 import Link from "next/link";
+import Skeleton from "./skeleton";
 
 export default function FeaturedPieces() {
   // const products = await fetchProducts({ limit: 5 });
@@ -40,11 +41,7 @@ export default function FeaturedPieces() {
     );
   }
   if (loading) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-gray-500">Loading products...</p>
-      </div>
-    );
+    return <Skeleton />;
   }
 
   return (
@@ -58,41 +55,45 @@ export default function FeaturedPieces() {
             View All
           </button>
         </div>
-        <div className="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product: any) => {
-            return (
-              <Link
-                href={""}
-                className="product-card max-w-full sm:max-w-70 flex flex-col"
-                key={product.id}
-              >
-                <div className="product-image bg-gray-100 py-6 px-3 w-full flex items-center justify-center mb-4">
-                  <div className="relative product-image h-80 w-60">
-                    <Image
-                      src={product.image}
-                      alt={product.title}
-                      fill
-                      className="object-cover"
-                    />
+        {loading ? (
+          <Skeleton />
+        ) : (
+          <div className="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {products.map((product: any) => {
+              return (
+                <Link
+                  href={""}
+                  className="product-card max-w-full sm:max-w-70 flex flex-col"
+                  key={product.id}
+                >
+                  <div className="product-image bg-gray-100 py-6 px-3 w-full flex items-center justify-center mb-4">
+                    <div className="relative image h-80 w-60">
+                      <Image
+                        src={product.image}
+                        alt={product.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="product-details">
-                  <div className="title-price flex justify-between">
-                    <h3 className="text-[0.8rem] font-normal leading-[1.8]">
-                      {product.title}
-                    </h3>
-                    <p className="text-[0.77rem] text-gray-700">
-                      ${product.price}
+                  <div className="product-details">
+                    <div className="title-price flex justify-between">
+                      <h3 className="text-[0.8rem] font-normal leading-[1.8]">
+                        {product.title}
+                      </h3>
+                      <p className="text-[0.77rem] text-gray-700">
+                        ${product.price}
+                      </p>
+                    </div>
+                    <p className="text-[8px] text-gray-600 uppercase tracking-[1.5px] mt-2">
+                      {product.category}
                     </p>
                   </div>
-                  <p className="text-[8px] text-gray-600 uppercase tracking-[1.5px] mt-2">
-                    {product.category}
-                  </p>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );
