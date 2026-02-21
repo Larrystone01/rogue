@@ -4,7 +4,7 @@ import Link from "next/link";
 export default async function FeaturedPieces() {
   // const products = await fetchProducts({ limit: 5 });
   const baseUrl = process.env.NEXT_PUBLIC_URL;
-  const res = await fetch(`${baseUrl}/api/products?limit=5`);
+  const res = await fetch(`${baseUrl}/api/products`);
   const products = await res.json();
   return (
     <section className="md:my-16 my-8">
