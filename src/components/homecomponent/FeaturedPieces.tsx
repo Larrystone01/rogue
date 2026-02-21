@@ -7,12 +7,6 @@ import Link from "next/link";
 import Skeleton from "./skeleton";
 
 export default function FeaturedPieces() {
-  // const products = await fetchProducts({ limit: 5 });
-  // const baseUrl = process.env.NEXT_PUBLIC_URL;
-  // const res = await fetch(`${baseUrl}/api/products`);
-  // if (!res.ok) throw new Error("Failed to fetch products");
-  // const products: Product[] = await res.json();
-
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -23,7 +17,9 @@ export default function FeaturedPieces() {
       setError("");
       try {
         const data = await fetchProducts({ limit: 5 });
-        setProducts(data);
+        setTimeout(() => {
+          setProducts(data);
+        }, 3000);
       } catch (err) {
         setError("Failed to fetch products");
       } finally {
@@ -66,13 +62,13 @@ export default function FeaturedPieces() {
                   className="product-card max-w-full sm:max-w-70 flex flex-col"
                   key={product.id}
                 >
-                  <div className="product-image bg-gray-100 py-6 px-3 w-full flex items-center justify-center mb-4">
+                  <div className="product-image bg-gray-100 px-3 py-6 w-full flex items-center justify-center mb-4">
                     <div className="relative image h-80 w-60">
                       <Image
                         src={product.image}
                         alt={product.title}
                         fill
-                        className="object-cover"
+                        className="object-contain"
                       />
                     </div>
                   </div>

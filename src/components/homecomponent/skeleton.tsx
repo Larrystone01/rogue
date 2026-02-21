@@ -5,7 +5,7 @@ export default function Skeleton() {
       <div className="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {Array.from({ length: 4 }).map((_, idx) => (
           <div
-            className="product-card flex flex-col max-w-full sm:max-w-70"
+            className="product-card flex flex-col max-w-full sm:min-w-70"
             key={idx}
           >
             {/* Image skeleton */}
