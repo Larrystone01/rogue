@@ -2,6 +2,7 @@ import { fetchProducts } from "@/lib/fetch";
 import Image from "next/image";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
 // type Rating = { rate: number; count: number };
 // type Product = {
 //   id: number;
