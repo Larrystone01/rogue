@@ -17,9 +17,8 @@ export default function FeaturedPieces() {
       setError("");
       try {
         const data = await fetchProducts({ limit: 5 });
-        setTimeout(() => {
-          setProducts(data);
-        }, 3000);
+
+        setProducts(data);
       } catch (err) {
         setError("Failed to fetch products");
       } finally {
