@@ -1,18 +1,26 @@
-type ShopProducts = {
+export type BaseProduct = {
   id: number;
   title: string;
   price: number;
   description: string;
-  category: {
+};
+
+export type ShopProducts = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category?: {
     id: number;
     name: string;
     image: string;
   };
-  categoryId: number;
-  images: string[];
-  slug: string;
-  creationAt: string;
-  updatedAt: string;
+  categoryId?: number;
+  images?: string[];
+  slug?: string;
+  creationAt?: string;
+  updatedAt?: string;
+  categoryString?: string;
 };
 
 export async function fetchShop(): Promise<ShopProducts[]> {

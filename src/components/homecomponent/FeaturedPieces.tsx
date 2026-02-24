@@ -2,9 +2,8 @@
 import { useState, useEffect } from "react";
 import { fetchProducts } from "@/lib/fetch";
 import type { Product } from "@/lib/fetch";
-import Image from "next/image";
-import Link from "next/link";
 import Skeleton from "./skeleton";
+import CardGrid from "../utils/card";
 
 export default function FeaturedPieces() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -35,9 +34,6 @@ export default function FeaturedPieces() {
       </div>
     );
   }
-  if (loading) {
-    return <Skeleton />;
-  }
 
   return (
     <section className="md:my-16 my-8">
@@ -50,45 +46,7 @@ export default function FeaturedPieces() {
             View All
           </button>
         </div>
-        {loading ? (
-          <Skeleton />
-        ) : (
-          <div className="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product: any) => {
-              return (
-                <Link
-                  href={""}
-                  className="product-card max-w-full sm:max-w-70 flex flex-col"
-                  key={product.id}
-                >
-                  <div className="product-image bg-gray-100 px-3 py-6 w-full flex items-center justify-center mb-4">
-                    <div className="relative image h-80 w-60">
-                      <Image
-                        src={product.image}
-                        alt={product.title}
-                        fill
-                        className="object-contain"
-                      />
-                    </div>
-                  </div>
-                  <div className="product-details">
-                    <div className="title-price flex justify-between">
-                      <h3 className="text-[0.8rem] font-normal leading-[1.8]">
-                        {product.title}
-                      </h3>
-                      <p className="text-[0.77rem] text-gray-700">
-                        ${product.price}
-                      </p>
-                    </div>
-                    <p className="text-[8px] text-gray-600 uppercase tracking-[1.5px] mt-2">
-                      {product.category}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        )}
+        {loading ? <Skeleton /> : <CardGrid products={products} />}
       </div>
     </section>
   );
