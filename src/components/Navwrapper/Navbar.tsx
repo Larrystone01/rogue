@@ -38,15 +38,15 @@ export default function Navbar() {
               </Link>
               <Link
                 className="border-b border-b-[#888] md:border-none pb-3"
-                href="/about"
+                href="/collections"
               >
-                About
+                Collections
               </Link>
               <Link
                 className="border-b border-b-[#888] md:border-none pb-3"
-                href="/contact"
+                href="/about"
               >
-                Contact
+                About
               </Link>
             </div>
             <div className="functionality flex gap-4 md:gap-10 md:w-1/2 md:justify-end justify-center py-5 md:p-0">

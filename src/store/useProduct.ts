@@ -21,7 +21,13 @@ export const createShopFetchStore = <T>() =>
     fetchShopProducts: async ({ url, offset, limit }) => {
       set({ loading: true, error: null });
       try {
-        const res = await fetch(`${url}?offset=${offset}&limit=${limit}`);
+        const params = new URLSearchParams();
+
+        if (offset !== undefined) params.append("offset", String(offset));
+        if (limit !== undefined) params.append("limit", String(limit));
+
+        const fullUrl = params.toString() ? `${url}?${params.toString()}` : url;
+        const res = await fetch(fullUrl);
         if (!res.ok) throw new Error("Failed to fetch");
         const data: T[] = await res.json();
 

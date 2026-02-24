@@ -16,7 +16,7 @@ export default function CardGrid<T>({ products }: CardGridProps<T>) {
         {products.map((product: any) => {
           return (
             <Link
-              href={""}
+              href={product.slug}
               className="product-card max-w-full sm:max-w-70 flex flex-col"
               key={product.id}
             >

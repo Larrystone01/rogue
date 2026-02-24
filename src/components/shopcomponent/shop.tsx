@@ -1,5 +1,4 @@
 "use client";
-import { fetchShop } from "@/lib/fetchShop";
 import { useEffect, useState } from "react";
 import { createShopFetchStore } from "@/store/useProduct";
 import CardGrid from "../utils/card";
