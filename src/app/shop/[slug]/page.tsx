@@ -144,7 +144,7 @@ export default function ProductPage() {
                   <button className="uppercase cursor-pointer bg-black text-white text-[0.85rem] w-full p-[1.1rem] border-[1.5px] border-black font-medium tracking-[1.5px] mb-4 hover:bg-gray-900">
                     add to cart
                   </button>
-                  <button className="uppercase cursor-pointer bg-transparent text-black text-[0.85rem] w-full p-[1.1rem] border-[1.5px] border-gray-300 font-normal tracking-[1px] mb-4 hover:bg-black">
+                  <button className="uppercase cursor-pointer bg-transparent text-black text-[0.85rem] w-full p-[1.1rem] border-[1.5px] border-gray-300 font-normal tracking-[1px] mb-4 hover:border-black transition-color ease-in-out duration-300">
                     save to wishlist
                   </button>
                 </div>
