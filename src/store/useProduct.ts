@@ -33,7 +33,6 @@ export const createShopFetchStore = <T>() =>
         const data: T[] = await res.json();
 
         set({ products: data, loading: false });
-        console.log(data);
       } catch (err) {
         set({
           error: err instanceof Error ? err.message : "Unknown error",

@@ -23,6 +23,7 @@ export default function Shop() {
   }, [offset, limit]);
 
   useEffect(() => {
+    if (!products) return;
     setLastFetchLength(products.length);
   }, [products]);
 
