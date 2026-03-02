@@ -9,7 +9,6 @@ import { ShopProducts } from "@/lib/fetchShop";
 import { TbTruckDelivery } from "react-icons/tb";
 import { TbArrowBack } from "react-icons/tb";
 import { GiAutoRepair } from "react-icons/gi";
-import { CiRedo } from "react-icons/ci";
 
 // type ProductPageProps = {
 //   params: { slug: string };
@@ -23,9 +22,10 @@ export default function ProductPage() {
   const params = useParams();
   const pathname = usePathname();
   const firstPath = pathname.split("/").filter(Boolean).shift();
-  console.log(firstPath);
   const slug = params.slug as string;
   const id = slug.split("-").pop();
+  const sizeNeededCategory =
+    product?.category?.name.toLowerCase() === "clothes";
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -101,42 +101,45 @@ export default function ProductPage() {
               </div>
               <div className="line-break h-px bg-gray-300 my-8"></div>
               <div className="bottom-side">
-                <div className="size mb-8">
-                  <h3 className="uppercase font-semibold text-[0.8rem] tracking-[1.5px] mb-4">
-                    size
-                  </h3>
-                  <div className="size-grid flex gap-3 flex-wrap">
-                    {["xs", "s", "m", "l", "xl"].map((size) => {
-                      return (
-                        <button
-                          key={size}
-                          onClick={() => setCurrentSize(size)}
-                          className={`uppercase border border-gray-300 text-[0.82rem] size-13 cursor-pointer hover:border-black ${size === currentSize ? "bg-black text-white border-black" : ""}`}
-                        >
-                          {size}
-                        </button>
-                      );
-                    })}
+                {product?.category?.name.toLowerCase() === "clothes" && (
+                  <div className="size mb-8">
+                    <h3 className="uppercase font-semibold text-[0.8rem] tracking-[1.5px] mb-4">
+                      size
+                    </h3>
+                    <div className="size-grid flex gap-3 flex-wrap">
+                      {["xs", "s", "m", "l", "xl"].map((size) => {
+                        return (
+                          <button
+                            key={size}
+                            onClick={() => setCurrentSize(size)}
+                            className={`uppercase border border-gray-300 text-[0.82rem] size-13 cursor-pointer hover:border-black ${size === currentSize ? "bg-black text-white border-black" : ""}`}
+                          >
+                            {size}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="quantity mb-8">
                   <h3 className="uppercase font-semibold text-[0.8rem] tracking-[1.5px] mb-4">
                     quantity
                   </h3>
                   <div className="qty-btn flex items-center space-x-6">
                     <button
-                      onClick={() => setQty((cur) => cur + 1)}
-                      className={`uppercase border border-gray-300 text-[1.2rem] size-10 cursor-pointer hover:border-black`}
-                    >
-                      +
-                    </button>
-                    <p>{qty}</p>
-                    <button
                       onClick={() => setQty((cur) => cur - 1)}
                       className={`uppercase border border-gray-300 text-[1.2rem] size-10 cursor-pointer hover:border-black`}
                       disabled={qty === 0}
                     >
                       -
+                    </button>
+                    <p>{qty}</p>
+
+                    <button
+                      onClick={() => setQty((cur) => cur + 1)}
+                      className={`uppercase border border-gray-300 text-[1.2rem] size-10 cursor-pointer hover:border-black`}
+                    >
+                      +
                     </button>
                   </div>
                 </div>

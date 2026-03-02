@@ -5,6 +5,7 @@ type ShopFetch<T> = {
   products: T[];
   loading: boolean;
   error: string | null;
+  clearProducts: () => void;
   fetchShopProducts: (params: {
     url: string;
     offset?: number;
@@ -39,5 +40,8 @@ export const createShopFetchStore = <T>() =>
           loading: false,
         });
       }
+    },
+    clearProducts: () => {
+      set({ products: [] });
     },
   }));
