@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { createShopFetchStore } from "@/store/useProduct";
 import { ShopProducts } from "@/lib/fetchShop";
 import CardGrid from "../utils/card";
+import Skeleton from "../homecomponent/skeleton";
 
 const useFetch = createShopFetchStore<ShopProducts>();
 export default function SearchContent() {
@@ -64,8 +65,8 @@ export default function SearchContent() {
               )}
             </div>
           </div>
-          <div className="result-side flex items-center justify-center mb-10">
-            {!query && (
+          <div className="result-side flex items-center justify-center w-full mb-10">
+            {!query ? (
               <div className="empty-search border border-dotted w-3xl h-96 flex flex-col space-y-10 items-center justify-center rounded-4xl">
                 <div className="icon">
                   <FcSearch size={48} />
@@ -74,23 +75,23 @@ export default function SearchContent() {
                   Start typing to browse our collection
                 </p>
               </div>
-            )}
-            {products.length < 1 && query && (
+            ) : loading ? (
+              <Skeleton />
+            ) : products && products.length === 0 ? (
               <div className="not-found text-center flex items-center justify-center h-96">
                 <p>
                   OOPs!!! We could not find what you're looking for, try making
                   another search
                 </p>
               </div>
-            )}
-            {query && products.length > 0 && (
-              <div className="search-result">
+            ) : products && products.length > 0 ? (
+              <div className="search-result w-full">
                 <h2 className="text-[clamp(2.5rem,4vw,4rem)] font-cormorant font-light capitalize mb-6">
-                  search Result
+                  Search Result
                 </h2>
                 <CardGrid products={products} />
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

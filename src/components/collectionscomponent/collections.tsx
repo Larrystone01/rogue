@@ -3,6 +3,7 @@ import { createShopFetchStore } from "@/store/useProduct";
 import CardGrid from "../utils/card";
 import { ShopProducts } from "@/lib/fetchShop";
 import { useEffect } from "react";
+import { IoMdWarning } from "react-icons/io";
 import Skeleton from "../homecomponent/skeleton";
 
 const useCategoryFetch = createShopFetchStore<ShopProducts>();
@@ -27,7 +28,20 @@ export default function Collections() {
               Featured Pieces / Hot Sales
             </p>
           </div>
-          {loading ? <Skeleton /> : <CardGrid products={products} />}
+          {loading && <Skeleton />}
+          {products?.length === 0 ? (
+            <div className="flex flex-col h-96 items-center justify-center">
+              <div className="icon text-yellow-500">
+                <IoMdWarning size={48} />
+              </div>
+              <p className="text-[clamp(2.5rem,4vw,4rem)]  text-gray-500 fomt-cormorant text-center">
+                There are currently no sales product at the moment kindly check
+                back at a later time
+              </p>
+            </div>
+          ) : (
+            <CardGrid products={products} />
+          )}
         </div>
       </div>
     </section>

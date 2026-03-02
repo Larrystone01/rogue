@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 type CardGridProps<T> = {
-  products: T[];
+  products: T[] | null;
 };
 
 export default function CardGrid<T>({ products }: CardGridProps<T>) {
@@ -10,6 +10,8 @@ export default function CardGrid<T>({ products }: CardGridProps<T>) {
     const knownHosts = ["api.escuelajs.co", "i.imgur.com", "picsum.photos"];
     return !knownHosts.some((host) => url.includes(host));
   }
+
+  if (!products || products.length === 0) return null;
   return (
     <>
       <div className="product-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">

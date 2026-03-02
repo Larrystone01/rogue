@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { ShopProducts } from "@/lib/fetchShop";
 
 type ShopFetch<T> = {
-  products: T[];
+  products: T[] | null;
   loading: boolean;
   error: string | null;
   clearProducts: () => void;
@@ -42,6 +42,6 @@ export const createShopFetchStore = <T>() =>
       }
     },
     clearProducts: () => {
-      set({ products: [] });
+      set({ products: null });
     },
   }));
