@@ -76,6 +76,23 @@ body {
   font-family: var(--font-montserrat);
 }
 
+.or {
+  position: relative;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+}
+
+.or::after,
+.or::before {
+  content: "";
+  width: 50%;
+  height: 1px;
+  background: black;
+  /* position: absolute; */
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
