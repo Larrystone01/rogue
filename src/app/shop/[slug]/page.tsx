@@ -20,6 +20,7 @@ export default function ProductPage() {
   const [product, setProduct] = useState<CartItem | null>(null);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
   const [currentSize, setCurrentSize] = useState<string>("m");
+  const [qty, setQty] = useState(1);
   const cart = useCartStore((state) => state.cart);
   const addToCart = useCartStore((state) => state.addToCart);
   const increment = useCartStore((state) => state.increment);
@@ -32,7 +33,11 @@ export default function ProductPage() {
   const sizeNeededCategory =
     product?.category?.name.toLowerCase() === "clothes";
 
-  const cartItem = cart.find((item) => item.id === product?.id);
+  // const cartItem = cart.find((item) => item.id === product?.id);
+  const cartItem = cart.find(
+    (item) => item.id === product?.id && item.size === currentSize,
+  );
+  const inCart = Boolean(cartItem);
   const quantity = cartItem?.quantity ?? 0;
   useEffect(() => {
     const loadProduct = async () => {
@@ -118,9 +123,7 @@ export default function ProductPage() {
                         return (
                           <button
                             key={size}
-                            onClick={() =>
-                              addToCart({ ...product, size: currentSize })
-                            }
+                            onClick={() => setCurrentSize(size)}
                             className={`uppercase border border-gray-300 text-[0.82rem] size-13 cursor-pointer hover:border-black ${size === currentSize ? "bg-black text-white border-black" : ""}`}
                           >
                             {size}
@@ -136,24 +139,18 @@ export default function ProductPage() {
                   </h3>
                   <div className="qty-btn flex items-center space-x-6">
                     <button
-                      // onClick={() => setQty((cur) => cur - 1)}
-                      onClick={() => decrement(product.id, product.size)}
+                      onClick={() =>
+                        !inCart && setQty((cur) => Math.max(1, cur - 1))
+                      }
                       className={`uppercase border border-gray-300 text-[1.2rem] size-10 cursor-pointer hover:border-black`}
-                      disabled={quantity === 0}
+                      // disabled={quantity === 0}
                     >
                       -
                     </button>
-                    <p>{quantity}</p>
+                    <p>{qty}</p>
 
                     <button
-                      // onClick={() => setQty((cur) => cur + 1)}
-                      onClick={() => {
-                        if (quantity === 0) {
-                          addToCart(product);
-                        } else {
-                          increment(product.id, product.size);
-                        }
-                      }}
+                      onClick={() => !inCart && setQty((cur) => cur + 1)}
                       className={`uppercase border border-gray-300 text-[1.2rem] size-10 cursor-pointer hover:border-black`}
                     >
                       +
@@ -163,7 +160,13 @@ export default function ProductPage() {
                 <div className="add-cart">
                   <button
                     className="uppercase cursor-pointer bg-black text-white text-[0.85rem] w-full p-[1.1rem] border-[1.5px] border-black font-medium tracking-[1.5px] mb-4 hover:bg-gray-900"
-                    onClick={() => addToCart(product)}
+                    onClick={() =>
+                      addToCart({
+                        ...product,
+                        size: currentSize,
+                        quantity: qty,
+                      })
+                    }
                   >
                     add to cart
                   </button>

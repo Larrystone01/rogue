@@ -7,9 +7,11 @@ import { Menu, X, ShoppingCart } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
 import Link from "next/link";
 import { useState } from "react";
+import { useCartStore } from "@/store/cartStore";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const getTotalItems = useCartStore((state) => state.getTotalItems);
   const user = useAuth();
   const router = useRouter();
   const handleSignInSignOut = async () => {
@@ -24,6 +26,7 @@ export default function Navbar() {
   const handleHamburgerClick = () => {
     setIsOpen((prev) => !prev);
   };
+  const totalItems = getTotalItems();
   return (
     <header className="fixed w-screen z-50 bg-white/90 backdrop-blur-sm">
       <div className="nav-container container mx-auto px-6">
@@ -70,10 +73,15 @@ export default function Navbar() {
                   Search
                 </Link>
               </div>
-              <div className="cart">
+              <div className="cart relative">
                 <Link href="/cart" className="">
                   Cart
                 </Link>
+                {totalItems > 0 && (
+                  <span className="bg-red-500 absolute text-white size-4 rounded-full flex items-center justify-center text-[10px] top-0 -right-5">
+                    {totalItems}
+                  </span>
+                )}
               </div>
               <div className="sign-in">
                 <button className="" onClick={handleSignInSignOut}>
@@ -87,8 +95,13 @@ export default function Navbar() {
               {" "}
               <CgProfile size={24} />{" "}
             </Link>
-            <Link href="/cart">
+            <Link href="/cart" className="relative">
               <ShoppingCart />
+              {totalItems > 0 && (
+                <span className="bg-red-500 absolute text-white size-4 rounded-full flex items-center justify-center text-[10px] -top-2 right-0">
+                  {totalItems}
+                </span>
+              )}
             </Link>
           </div>
         </nav>
