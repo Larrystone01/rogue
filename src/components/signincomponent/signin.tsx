@@ -1,24 +1,25 @@
 "use client";
 import { useState } from "react";
 import {
-  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
-  updateProfile,
+  getIdToken,
 } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import Link from "next/link";
 
-export default function SignUp() {
+export default function SignIn() {
   const [formData, setFormData] = useState({
-    fullname: "",
     email: "",
     password: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   function handleChange(e: any) {
@@ -26,44 +27,54 @@ export default function SignUp() {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }
 
-  async function handleSignUp(e: any) {
+  async function handleSignIn(e: any) {
     e.preventDefault();
     if (!formData.email || !formData.password) {
       toast.error("Please enter all the field");
       return;
     }
     try {
-      const userCredentials = await createUserWithEmailAndPassword(
-        auth,
-        formData.email,
-        formData.password,
-      );
-      const user = userCredentials.user;
-      if (user) {
-        toast.error("User Exists");
-        return;
+      setLoading(true);
+      await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      // const user = userCredentials.user;
+      const token = await auth.currentUser?.getIdToken();
+      if (token) {
+        Cookies.set("token", token);
       }
-      await updateProfile(user, { displayName: formData.fullname });
-      toast.success("Account Created Successfully");
-      setFormData({ fullname: "", email: "", password: "" });
-      console.log("user created:", userCredentials);
-      // router.push("/sign-in");
+
+      router.push("/sign-in");
+      toast.success("ALogin Successful");
+      setFormData({ email: "", password: "" });
     } catch (err: any) {
       setError(err.message);
-      toast.error("Problem Creating Account");
+      toast.error("Incorrect email or password");
+    } finally {
+      setLoading(false);
     }
   }
 
-  async function handleGoogleSignUp(e: any) {
+  async function handleGoogleSignIn(e: any) {
     e.preventDefault();
     try {
+      setLoading(true);
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
+      const token = await auth.currentUser?.getIdToken();
+      if (token) {
+        Cookies.set("token", token);
+      }
+      toast.success("Login suceesful");
+      router.push("/cart");
       const user = result.user;
     } catch (err: any) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   }
+
+  
+
   return (
     <section className="my-5">
       <div className="container mx-auto px-6">
@@ -76,22 +87,8 @@ export default function SignUp() {
           </p>
           <form
             className="input-form flex flex-col md:items-center space-y-5 md:max-w-3xl w-full"
-            onSubmit={handleSignUp}
+            onSubmit={handleSignIn}
           >
-            <div className="name-input flex flex-col space-y-3">
-              <label htmlFor="fullname" className="capitalize">
-                Name
-              </label>
-              <input
-                type="text"
-                value={formData.fullname}
-                onChange={handleChange}
-                name="fullname"
-                id="fullname"
-                className="p-3 outline-none border border-gray-500 md:w-125 w-full"
-                placeholder="Your name"
-              />
-            </div>
             <div className="email-input flex flex-col space-y-3">
               <label htmlFor="email" className="capitalize">
                 email
@@ -124,7 +121,7 @@ export default function SignUp() {
               type="submit"
               className="uppercase bg-black text-white py-3 md:w-125 cursor-pointer"
             >
-              create account
+              login
             </button>
             <div className="or-line md:w-125">
               <p className="or w-full uppercase">or</p>
@@ -132,9 +129,9 @@ export default function SignUp() {
             <div className="sign-up-with-google">
               <button
                 className="uppercase flex items-center justify-center gap-2 bg-white border border-gray-500 py-3 md:w-125 w-full cursor-pointer"
-                onClick={handleGoogleSignUp}
+                onClick={handleGoogleSignIn}
               >
-                sign up with google{" "}
+                login with google{" "}
                 <span>
                   <FcGoogle />
                 </span>
@@ -143,9 +140,9 @@ export default function SignUp() {
           </form>
           <div className="input-foot md:w-125 text-center mt-8">
             <p className="text-[0.9rem] text-gray-500">
-              Already have an account?{" "}
+              No account?{" "}
               <span className="text-black">
-                <Link href="/sign-in">Sign In</Link>
+                <Link href="/sign-up">Create one</Link>
               </span>
             </p>
           </div>

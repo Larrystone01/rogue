@@ -1,4 +1,8 @@
 "use client";
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebase";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
 import Link from "next/link";
@@ -6,6 +10,17 @@ import { useState } from "react";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const user = useAuth();
+  const router = useRouter();
+  const handleSignInSignOut = async () => {
+    if (user) {
+      await signOut(auth);
+      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      router.push("/");
+    } else {
+      router.push("/sign-in");
+    }
+  };
   const handleHamburgerClick = () => {
     setIsOpen((prev) => !prev);
   };
@@ -61,14 +76,14 @@ export default function Navbar() {
                 </Link>
               </div>
               <div className="sign-in">
-                <Link href="/sign-in" className="">
-                  Sign In
-                </Link>
+                <button className="" onClick={handleSignInSignOut}>
+                  {user ? "Sign Out" : "Sign In"}
+                </button>
               </div>
             </div>
           </div>
           <div className="sign-up-icon flex gap-4 md:hidden">
-            <Link href="/login">
+            <Link href="/sign-in">
               {" "}
               <CgProfile size={24} />{" "}
             </Link>
