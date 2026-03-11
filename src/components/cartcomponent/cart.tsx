@@ -52,7 +52,8 @@ export default function Cart() {
                       <h2 className="text-[25px]">{item.title}</h2>
                       <div className="size-qty-price flex justify-between w-full text-gray-500">
                         <p>
-                          Size:M <span>Quantity: {item.quantity}</span>
+                          <span>Size:{item.size} </span>{" "}
+                          <span>Quantity: {item.quantity}</span>
                         </p>
                         <h3 className="text-[30px] font-bold">
                           ${item.price * item.quantity}
