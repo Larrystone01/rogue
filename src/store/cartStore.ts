@@ -3,7 +3,7 @@ import type { ShopProducts } from "@/lib/fetchShop";
 
 export type CartItem = ShopProducts & {
   quantity: number;
-  size?: string;
+  size?: string | null;
 };
 
 type CartState = {
@@ -69,7 +69,7 @@ export const useCartStore = create<CartState>((set, get) => {
     increment: (id, size) =>
       set((state) => {
         const newCart = state.cart.map((item) =>
-          item.id === id && item.size === size
+          item.id === id && (item.size ?? undefined) === size
             ? { ...item, quantity: item.quantity + 1 }
             : item,
         );
@@ -81,7 +81,7 @@ export const useCartStore = create<CartState>((set, get) => {
       set((state) => {
         const newCart = state.cart
           .map((item) =>
-            item.id === id && item.size === size
+            item.id === id && (item.size ?? undefined) === size
               ? { ...item, quantity: item.quantity - 1 }
               : item,
           )
@@ -93,7 +93,7 @@ export const useCartStore = create<CartState>((set, get) => {
     removeItem: (id, size) =>
       set((state) => {
         const newCart = state.cart.filter(
-          (item) => item.id !== id && item.size !== size,
+          (item) => !(item.id === id && (item.size ?? undefined) === size),
         );
         saveCart(newCart);
         return { cart: newCart };

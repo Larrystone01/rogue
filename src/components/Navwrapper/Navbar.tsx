@@ -73,7 +73,7 @@ export default function Navbar() {
                   Search
                 </Link>
               </div>
-              <div className="cart relative">
+              <div className="cart relative hidden md:block">
                 <Link href="/cart" className="">
                   Cart
                 </Link>

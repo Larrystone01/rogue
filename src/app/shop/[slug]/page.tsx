@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { ShopProducts } from "@/lib/fetchShop";
 import { CartItem } from "@/store/cartStore";
 import { TbTruckDelivery } from "react-icons/tb";
@@ -19,7 +20,7 @@ import { useCartStore } from "@/store/cartStore";
 export default function ProductPage() {
   const [product, setProduct] = useState<CartItem | null>(null);
   const [currentImage, setCurrentImage] = useState<string | null>(null);
-  const [currentSize, setCurrentSize] = useState<string>("m");
+  const [currentSize, setCurrentSize] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
   const cart = useCartStore((state) => state.cart);
   const addToCart = useCartStore((state) => state.addToCart);
@@ -53,6 +54,7 @@ export default function ProductPage() {
       setCurrentImage(product.images[0]);
     }
   }, [product]);
+  console.log(product);
 
   if (!product || !currentImage) return <div>Loading...</div>;
   return (
@@ -137,36 +139,44 @@ export default function ProductPage() {
                   <h3 className="uppercase font-semibold text-[0.8rem] tracking-[1.5px] mb-4">
                     quantity
                   </h3>
-                  <div className="qty-btn flex items-center space-x-6">
-                    <button
-                      onClick={() =>
-                        !inCart && setQty((cur) => Math.max(1, cur - 1))
-                      }
-                      className={`uppercase border border-gray-300 text-[1.2rem] size-10 cursor-pointer hover:border-black`}
-                      // disabled={quantity === 0}
-                    >
-                      -
-                    </button>
-                    <p>{qty}</p>
+                  {inCart && (
+                    <div className="qty-btn flex items-center space-x-6">
+                      <button
+                        // onClick={() =>
+                        //   !inCart && setQty((cur) => Math.max(1, cur - 1))
+                        // }
+                        onClick={() =>
+                          decrement(product.id, currentSize ?? undefined)
+                        }
+                        className={`uppercase border border-gray-300 text-[1.2rem] size-10 cursor-pointer hover:border-black`}
+                        // disabled={quantity === 0}
+                      >
+                        -
+                      </button>
+                      <p>{quantity}</p>
 
-                    <button
-                      onClick={() => !inCart && setQty((cur) => cur + 1)}
-                      className={`uppercase border border-gray-300 text-[1.2rem] size-10 cursor-pointer hover:border-black`}
-                    >
-                      +
-                    </button>
-                  </div>
+                      <button
+                        // onClick={() => !inCart && setQty((cur) => cur + 1)}
+                        onClick={() =>
+                          increment(product.id, currentSize ?? undefined)
+                        }
+                        className={`uppercase border border-gray-300 text-[1.2rem] size-10 cursor-pointer hover:border-black`}
+                      >
+                        +
+                      </button>
+                    </div>
+                  )}
                 </div>
                 <div className="add-cart">
                   <button
                     className="uppercase cursor-pointer bg-black text-white text-[0.85rem] w-full p-[1.1rem] border-[1.5px] border-black font-medium tracking-[1.5px] mb-4 hover:bg-gray-900"
-                    onClick={() =>
+                    onClick={() => {
                       addToCart({
                         ...product,
                         size: currentSize,
-                        quantity: qty,
-                      })
-                    }
+                      });
+                      toast.success("Item Added to Cart");
+                    }}
                   >
                     add to cart
                   </button>
