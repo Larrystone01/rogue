@@ -3,7 +3,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import { Menu, X, ShoppingCart } from "lucide-react";
+import { Menu, X, ShoppingCart, LogOut } from "lucide-react";
 import { CgProfile } from "react-icons/cg";
 import Link from "next/link";
 import { useState } from "react";
@@ -11,11 +11,13 @@ import { useCartStore } from "@/store/cartStore";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const getTotalItems = useCartStore((state) => state.getTotalItems);
+  const totalItems = useCartStore((state) => state.getTotalItems());
+  const clearCart = useCartStore(state => state.clearCart)
   const user = useAuth();
   const router = useRouter();
   const handleSignInSignOut = async () => {
     if (user) {
+      clearCart(user.uid)
       await signOut(auth);
       document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
       router.push("/");
@@ -26,7 +28,7 @@ export default function Navbar() {
   const handleHamburgerClick = () => {
     setIsOpen((prev) => !prev);
   };
-  const totalItems = getTotalItems();
+  // const totalItems = getTotalItems();
   return (
     <header className="fixed w-screen z-50 bg-white/90 backdrop-blur-sm">
       <div className="nav-container container mx-auto px-6">
@@ -66,12 +68,17 @@ export default function Navbar() {
               >
                 About
               </Link>
-            </div>
-            <div className="functionality flex gap-4 md:gap-10 md:w-1/2 md:justify-end justify-center py-5 md:p-0">
-              <div className="search">
-                <Link href="/search" className="">
+                <Link href="/search" className="border-b border-b-[#888] md:border-none pb-3">
                   Search
                 </Link>
+              
+            </div>
+            <div className="functionality flex gap-4 md:gap-10 md:w-1/2 md:justify-end justify-center py-5 md:p-0">
+              <div className="profile">
+                {user && (
+                  <p className="capitalize">hi, {user?.displayName}</p>
+                )}
+                
               </div>
               <div className="cart relative hidden md:block">
                 <Link href="/cart" className="">
@@ -84,8 +91,8 @@ export default function Navbar() {
                 )}
               </div>
               <div className="sign-in">
-                <button className="" onClick={handleSignInSignOut}>
-                  {user ? "Sign Out" : "Sign In"}
+                <button className="cursor-pointer" onClick={handleSignInSignOut}>
+                  {user ? <LogOut/> : "Sign In"}
                 </button>
               </div>
             </div>
