@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import "react-toastify/dist/ReactToastify.css";
 import ToastProvider from "@/components/toast/toastprovider";
+import CartHydration from "@/components/cartcomponent/cartHydration";
 import "./globals.css";
 
 const cormorant_garamond = Cormorant_Garamond({
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body
         className={`${cormorant_garamond.variable} ${montserrat.variable} antialiased`}
       >
+        <CartHydration />
         {children}
         <ToastProvider />
       </body>

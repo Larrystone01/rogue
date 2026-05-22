@@ -8,23 +8,28 @@ export type CartItem = ShopProducts & {
 
 type CartState = {
   cart: CartItem[];
+  uid: string | null;
+  setCartUid: (uid: string | null) => void;
   addToCart: (item: CartItem) => void;
   increment: (id: number, size?: string) => void;
   decrement: (id: number, size?: string) => void;
   removeItem: (id: number, size?: string) => void;
 
-  clearCart: () => void;
-  hydrateCart: () => void;
+  clearCart: (uid: string) => void;
+  hydrateCart: (uid: string) => void;
 
   getTotalPrice: () => number;
   getTotalItems: () => number;
 };
 
+const CART_KEY = (uid: string) => `rogue-cart-${uid}`;
+
 export const useCartStore = create<CartState>((set, get) => {
   const saveCart = (cart: CartItem[]) => {
+    const uid = get().uid ?? "guest";
     if (typeof window !== "undefined") {
       const cartItems = JSON.stringify(cart);
-      localStorage.setItem("rogue-cart", cartItems);
+      localStorage.setItem(CART_KEY(uid), cartItems);
     }
   };
 
@@ -38,10 +43,12 @@ export const useCartStore = create<CartState>((set, get) => {
 
   return {
     cart: [],
+    uid: null,
+    setCartUid: (uid) => set({ uid }),
 
-    hydrateCart: () => {
+    hydrateCart: (uid: string) => {
       if (typeof window === "undefined") return;
-      const stored = localStorage.getItem("rogue-cart");
+      const stored = localStorage.getItem(CART_KEY(uid));
       if (stored) {
         set({ cart: JSON.parse(stored) });
       }
@@ -99,10 +106,10 @@ export const useCartStore = create<CartState>((set, get) => {
         return { cart: newCart };
       }),
 
-    clearCart: () =>
+    clearCart: (uid) =>
       set(() => {
         if (typeof window !== "undefined") {
-          localStorage.removeItem("rogue-cart");
+          localStorage.removeItem(CART_KEY(uid));
         }
         return { cart: [] };
       }),

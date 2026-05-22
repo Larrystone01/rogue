@@ -43,7 +43,7 @@ export default function SignIn() {
       }
 
       router.push("/sign-in");
-      toast.success("ALogin Successful");
+      toast.success("Login Successful");
       setFormData({ email: "", password: "" });
     } catch (err: any) {
       setError(err.message);
@@ -63,7 +63,7 @@ export default function SignIn() {
       if (token) {
         Cookies.set("token", token);
       }
-      toast.success("Login suceesful");
+      toast.success("Login successful");
       router.push("/cart");
       const user = result.user;
     } catch (err: any) {
@@ -73,17 +73,15 @@ export default function SignIn() {
     }
   }
 
-  
-
   return (
     <section className="my-5">
       <div className="container mx-auto px-6">
         <div className="page-container flex flex-col items-center">
           <h1 className="text-[clamp(2.5rem,4vw,4rem)] font-cormorant font-light capitalize">
-            create account
+            login account
           </h1>
           <p className="description capitalize text-[0.9rem] text-gray-500 mb-7">
-            join rogue
+            login to rogue
           </p>
           <form
             className="input-form flex flex-col md:items-center space-y-5 md:max-w-3xl w-full"
@@ -119,8 +117,12 @@ export default function SignIn() {
             </div>
             <button
               type="submit"
-              className="uppercase bg-black text-white py-3 md:w-125 cursor-pointer"
+              className="uppercase bg-black text-white py-3 md:w-125 cursor-pointer hover:bg-black/70 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={loading}
             >
+              {loading && (
+                <span className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-flex items-center justify-center" />
+              )}
               login
             </button>
             <div className="or-line md:w-125">
@@ -130,7 +132,11 @@ export default function SignIn() {
               <button
                 className="uppercase flex items-center justify-center gap-2 bg-white border border-gray-500 py-3 md:w-125 w-full cursor-pointer"
                 onClick={handleGoogleSignIn}
+                disabled={loading}
               >
+                {loading && (
+                  <span className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-flex items-center justify-center" />
+                )}
                 login with google{" "}
                 <span>
                   <FcGoogle />

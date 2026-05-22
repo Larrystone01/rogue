@@ -11,10 +11,6 @@ export default function Cart() {
   const increment = useCartStore((state) => state.increment);
   const removeItem = useCartStore((state) => state.removeItem);
   const getTotalPrice = useCartStore((state) => state.getTotalPrice);
-  const hydrateCart = useCartStore((state) => state.hydrateCart);
-  useEffect(() => {
-    hydrateCart();
-  }, [hydrateCart]);
 
   const totalPrice = getTotalPrice();
 
