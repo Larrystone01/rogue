@@ -73,8 +73,6 @@ export default function SignIn() {
     }
   }
 
-  
-
   return (
     <section className="my-5">
       <div className="container mx-auto px-6">
@@ -120,10 +118,10 @@ export default function SignIn() {
             <button
               type="submit"
               className="uppercase bg-black text-white py-3 md:w-125 cursor-pointer hover:bg-black/70 disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={loading}
+              disabled={loading}
             >
               {loading && (
-                 <span className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-flex items-center justify-center" />
+                <span className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-flex items-center justify-center" />
               )}
               login
             </button>
@@ -134,7 +132,11 @@ export default function SignIn() {
               <button
                 className="uppercase flex items-center justify-center gap-2 bg-white border border-gray-500 py-3 md:w-125 w-full cursor-pointer"
                 onClick={handleGoogleSignIn}
+                disabled={loading}
               >
+                {loading && (
+                  <span className="size-4 border-2 border-white border-t-transparent rounded-full animate-spin inline-flex items-center justify-center" />
+                )}
                 login with google{" "}
                 <span>
                   <FcGoogle />

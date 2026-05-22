@@ -9,7 +9,7 @@ export type CartItem = ShopProducts & {
 type CartState = {
   cart: CartItem[];
   uid: string | null;
-  setUid: (uid: string | null) => void;
+  setCartUid: (uid: string | null) => void;
   addToCart: (item: CartItem) => void;
   increment: (id: number, size?: string) => void;
   decrement: (id: number, size?: string) => void;
@@ -44,9 +44,9 @@ export const useCartStore = create<CartState>((set, get) => {
   return {
     cart: [],
     uid: null,
-    setUid: (uid) => set({ uid }),
+    setCartUid: (uid) => set({ uid }),
 
-    hydrateCart: (uid:string) => {
+    hydrateCart: (uid: string) => {
       if (typeof window === "undefined") return;
       const stored = localStorage.getItem(CART_KEY(uid));
       if (stored) {

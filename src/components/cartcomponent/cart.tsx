@@ -12,7 +12,6 @@ export default function Cart() {
   const removeItem = useCartStore((state) => state.removeItem);
   const getTotalPrice = useCartStore((state) => state.getTotalPrice);
 
-
   const totalPrice = getTotalPrice();
 
   if (cart.length === 0) {

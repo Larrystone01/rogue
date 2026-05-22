@@ -32,7 +32,7 @@ export default function RootLayout({
       <body
         className={`${cormorant_garamond.variable} ${montserrat.variable} antialiased`}
       >
-        <CartHydration/>
+        <CartHydration />
         {children}
         <ToastProvider />
       </body>

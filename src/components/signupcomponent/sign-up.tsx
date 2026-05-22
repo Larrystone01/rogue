@@ -27,21 +27,21 @@ export default function SignUp() {
   }
 
   const getErrorMessage = (code: string) => {
-  switch (code) {
-    case "auth/email-already-in-use":
-      return "An account with this email already exists.";
-    case "auth/invalid-email":
-      return "Please enter a valid email address.";
-    case "auth/weak-password":
-      return "Password must be at least 6 characters.";
-    case "auth/network-request-failed":
-      return "Network error. Check your connection and try again.";
-    case "auth/too-many-requests":
-      return "Too many attempts. Please try again later.";
-    default:
-      return "Something went wrong. Please try again.";
-  }
-};
+    switch (code) {
+      case "auth/email-already-in-use":
+        return "An account with this email already exists.";
+      case "auth/invalid-email":
+        return "Please enter a valid email address.";
+      case "auth/weak-password":
+        return "Password must be at least 6 characters.";
+      case "auth/network-request-failed":
+        return "Network error. Check your connection and try again.";
+      case "auth/too-many-requests":
+        return "Too many attempts. Please try again later.";
+      default:
+        return "Something went wrong. Please try again.";
+    }
+  };
 
   async function handleSignUp(e: any) {
     e.preventDefault();
@@ -66,7 +66,7 @@ export default function SignUp() {
       console.log("user created:", userCredentials);
       // router.push("/sign-in");
     } catch (err: any) {
-      const message = getErrorMessage(err.code)
+      const message = getErrorMessage(err.code);
       setError(message);
       toast.error(message);
     }

@@ -12,6 +12,7 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { TbArrowBack } from "react-icons/tb";
 import { GiAutoRepair } from "react-icons/gi";
 import { useCartStore } from "@/store/cartStore";
+import { useWishListStore } from "@/store/wishlistStore";
 
 // type ProductPageProps = {
 //   params: { slug: string };
@@ -26,6 +27,16 @@ export default function ProductPage() {
   const addToCart = useCartStore((state) => state.addToCart);
   const increment = useCartStore((state) => state.increment);
   const decrement = useCartStore((state) => state.decrement);
+  const addToWishList = useWishListStore((state) => state.addToWishList);
+  const removeFromWishList = useWishListStore(
+    (state) => state.removeFromWishList,
+  );
+  // const isWishListed = useWishListStore((state) => {
+  //   product ? state.isWishListed(product.id) : false;
+  // });
+  const isWishListed = useWishListStore((state) =>
+    state.isWishListed(product?.id ?? -1),
+  );
   const params = useParams();
   const pathname = usePathname();
   const firstPath = pathname.split("/").filter(Boolean).shift();
@@ -40,6 +51,17 @@ export default function ProductPage() {
   );
   const inCart = Boolean(cartItem);
   const quantity = cartItem?.quantity ?? 0;
+
+  const handlewishlist = () => {
+    if (!product) return;
+    if (isWishListed) {
+      removeFromWishList(product.id);
+      toast.info("Removed from Wishlist");
+    } else {
+      addToWishList(product);
+      toast.success("Added To Wishlist");
+    }
+  };
   useEffect(() => {
     const loadProduct = async () => {
       const res = await fetch(`https://api.escuelajs.co/api/v1/products/${id}`);
@@ -180,7 +202,10 @@ export default function ProductPage() {
                   >
                     add to cart
                   </button>
-                  <button className="uppercase cursor-pointer bg-transparent text-black text-[0.85rem] w-full p-[1.1rem] border-[1.5px] border-gray-300 font-normal tracking-[1px] mb-4 hover:border-black transition-color ease-in-out duration-300">
+                  <button
+                    className="uppercase cursor-pointer bg-transparent text-black text-[0.85rem] w-full p-[1.1rem] border-[1.5px] border-gray-300 font-normal tracking-[1px] mb-4 hover:border-black transition-color ease-in-out duration-300"
+                    onClick={handlewishlist}
+                  >
                     save to wishlist
                   </button>
                 </div>

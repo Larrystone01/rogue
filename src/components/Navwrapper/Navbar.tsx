@@ -12,12 +12,12 @@ import { useCartStore } from "@/store/cartStore";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const totalItems = useCartStore((state) => state.getTotalItems());
-  const clearCart = useCartStore(state => state.clearCart)
+  const clearCart = useCartStore((state) => state.clearCart);
   const user = useAuth();
   const router = useRouter();
   const handleSignInSignOut = async () => {
     if (user) {
-      clearCart(user.uid)
+      clearCart(user.uid);
       await signOut(auth);
       document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
       router.push("/");
@@ -68,17 +68,16 @@ export default function Navbar() {
               >
                 About
               </Link>
-                <Link href="/search" className="border-b border-b-[#888] md:border-none pb-3">
-                  Search
-                </Link>
-              
+              <Link
+                href="/search"
+                className="border-b border-b-[#888] md:border-none pb-3"
+              >
+                Search
+              </Link>
             </div>
             <div className="functionality flex gap-4 md:gap-10 md:w-1/2 md:justify-end justify-center py-5 md:p-0">
               <div className="profile">
-                {user && (
-                  <p className="capitalize">hi, {user?.displayName}</p>
-                )}
-                
+                {user && <p className="capitalize">hi, {user?.displayName}</p>}
               </div>
               <div className="cart relative hidden md:block">
                 <Link href="/cart" className="">
@@ -91,8 +90,11 @@ export default function Navbar() {
                 )}
               </div>
               <div className="sign-in">
-                <button className="cursor-pointer" onClick={handleSignInSignOut}>
-                  {user ? <LogOut/> : "Sign In"}
+                <button
+                  className="cursor-pointer"
+                  onClick={handleSignInSignOut}
+                >
+                  {user ? <LogOut /> : "Sign In"}
                 </button>
               </div>
             </div>
