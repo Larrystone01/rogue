@@ -29,7 +29,7 @@ export default function WishListPage() {
                 return (
                   <div
                     className="item flex gap-10 p-5 w-full h-fit bg-gray-100"
-                    key={`${item.id}-${item.size}`}
+                    key={`${item.id}`}
                   >
                     <div className="image-container relative w-40 h-40 bg-gray-200 px-5 py-6">
                       <Image
